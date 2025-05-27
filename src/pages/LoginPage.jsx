@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Box, TextField, Button, Typography, CircularProgress, Alert } from '@mui/material';
+import { Box, TextField, Button, Typography, CircularProgress, Alert, useTheme } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import tmsLogo from '../assets/tms_logo.png';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -10,6 +11,7 @@ const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth();
+  const theme = useTheme();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,14 +40,14 @@ const LoginPage = () => {
 
   return (
     <Box sx={{
-      height: '100vh',
+      minHeight: '100vh',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: '#f8f9fa',
-      width: '100vw',
-      overflowX: 'hidden',
-      padding: '20px'
+      background: 'linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%)',
+      width: '100%',
+      padding: '20px',
+      boxSizing: 'border-box'
     }}>
       <Box
         component="form"
@@ -53,25 +55,59 @@ const LoginPage = () => {
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          gap: 3,
+          gap: 2,
           p: 4,
           backgroundColor: 'white',
           borderRadius: 2,
-          boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
           width: '100%',
           maxWidth: 400,
-          mx: 'auto'
+          mx: 'auto',
+          border: '1px solid rgba(0, 0, 0, 0.1)'
         }}
       >
-          <Box sx={{ mb: 2 }}>
-            <Typography variant="h5" sx={{ textAlign: 'center', mb: 3 }}>
-              TikTok Organics
-            </Typography>
-            <Typography variant="body2" sx={{ textAlign: 'center', color: '#666', mb: 4 }}>
-              Please enter your credentials to continue
+          <Box sx={{ 
+            display: 'flex', 
+            flexDirection: 'column', 
+            alignItems: 'center'
+          }}>
+            <Box 
+              component="img"
+              src={tmsLogo} 
+              alt="TMS Logo" 
+              sx={{ 
+                maxHeight: 60,
+                maxWidth: '100%',
+                height: 'auto',
+                width: 'auto',
+                objectFit: 'contain',
+                mb: 3
+              }} 
+            />
+            <Typography 
+              variant="subtitle1" 
+              sx={{ 
+                textAlign: 'center', 
+                color: 'text.secondary',
+                fontWeight: 500,
+                letterSpacing: 0.5,
+                mb: -2
+              }}
+            >
+              Sign in to your account
             </Typography>
             {error && (
-              <Alert severity="error" sx={{ mb: 2 }}>
+              <Alert 
+                severity="error" 
+                sx={{ 
+                  mt: 2,
+                  width: '100%',
+                  '& .MuiAlert-message': {
+                    width: '100%',
+                    textAlign: 'left'
+                  }
+                }}
+              >
                 {error}
               </Alert>
             )}
@@ -90,14 +126,20 @@ const LoginPage = () => {
             sx={{
               '& .MuiOutlinedInput-root': {
                 '& fieldset': {
-                  borderColor: '#e0e0e0'
+                  borderColor: 'rgba(0, 0, 0, 0.23)'
                 },
                 '&:hover fieldset': {
-                  borderColor: '#6c757d'
+                  borderColor: 'rgba(0, 0, 0, 0.5)'
                 },
                 '&.Mui-focused fieldset': {
-                  borderColor: '#6c757d'
+                  borderColor: 'rgba(0, 0, 0, 0.7)'
                 }
+              },
+              '& .MuiInputLabel-root': {
+                color: 'rgba(0, 0, 0, 0.6)'
+              },
+              '& .MuiInputLabel-root.Mui-focused': {
+                color: 'rgba(0, 0, 0, 0.8)'
               }
             }}
           />
@@ -115,14 +157,20 @@ const LoginPage = () => {
             sx={{
               '& .MuiOutlinedInput-root': {
                 '& fieldset': {
-                  borderColor: '#e0e0e0'
+                  borderColor: 'rgba(0, 0, 0, 0.23)'
                 },
                 '&:hover fieldset': {
-                  borderColor: '#6c757d'
+                  borderColor: 'rgba(0, 0, 0, 0.5)'
                 },
                 '&.Mui-focused fieldset': {
-                  borderColor: '#6c757d'
+                  borderColor: 'rgba(0, 0, 0, 0.7)'
                 }
+              },
+              '& .MuiInputLabel-root': {
+                color: 'rgba(0, 0, 0, 0.6)'
+              },
+              '& .MuiInputLabel-root.Mui-focused': {
+                color: 'rgba(0, 0, 0, 0.8)'
               }
             }}
           />
@@ -132,17 +180,23 @@ const LoginPage = () => {
             fullWidth
             disabled={isLoading}
             sx={{
-              bgcolor: '#6c757d',
-              color: 'white',
+              bgcolor: 'rgba(0, 0, 0, 0.8)',
+              color: '#fff',
+              borderRadius: 1,
+              textTransform: 'none',
+              fontSize: '1rem',
+              fontWeight: 500,
+              letterSpacing: 0.5,
+              height: 48,
               '&:hover': {
-                bgcolor: '#5a6268'
+                bgcolor: 'rgba(0, 0, 0, 0.9)'
               },
-              mt: 3,
+              mt: 1,
               mb: 2,
-              py: 1.5,
+              transition: 'all 0.2s ease-in-out',
               '&:disabled': {
-                bgcolor: '#cccccc',
-                color: '#666666'
+                bgcolor: 'rgba(0, 0, 0, 0.12)',
+                color: 'rgba(0, 0, 0, 0.26)'
               }
             }}
           >

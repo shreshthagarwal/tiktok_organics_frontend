@@ -1,49 +1,72 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
-import tiktokLogo from '../assets/tiktok_logo.svg';
+import { Box, Typography, Paper } from '@mui/material';
 
-const TikTokOrganicConnectCard = ({ onClick, children }) => {
+export const CardHeader = ({ title, action }) => (
+  <Box sx={{ 
+    display: 'flex', 
+    justifyContent: 'space-between', 
+    alignItems: 'center',
+    p: 2.5,
+    borderBottom: '1px solid rgba(0, 0, 0, 0.06)',
+    bgcolor: '#fafafa',
+    borderRadius: '8px 8px 0 0'
+  }}>
+    <Typography variant="h6" sx={{ 
+      fontWeight: 600, 
+      color: 'text.primary',
+      fontSize: '1rem',
+      lineHeight: 1.5
+    }}>
+      {title}
+    </Typography>
+    {action}
+  </Box>
+);
+
+export const CardContent = ({ children, sx = {} }) => (
+  <Box sx={{ p: 3, ...sx }}>
+    {children}
+  </Box>
+);
+
+export const CardFooter = ({ children }) => (
+  <Box sx={{ 
+    p: 2, 
+    borderTop: '1px solid rgba(0, 0, 0, 0.06)',
+    bgcolor: '#fafafa',
+    borderRadius: '0 0 8px 8px'
+  }}>
+    {children}
+  </Box>
+);
+
+const TikTokOrganicConnectCard = ({ children, onClick, sx = {} }) => {
   return (
-    <Box
+    <Paper
+      elevation={0}
       sx={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
         width: '100%',
-        p: 2,
-        borderRadius: 1,
-        border: '1px solid #e0e0e0',
-        bgcolor: 'white',
-        transition: 'all 0.2s ease',
-        cursor: 'pointer',
+        borderRadius: 2,
+        border: '1px solid rgba(0, 0, 0, 0.06)',
+        bgcolor: '#fff',
+        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+        overflow: 'hidden',
         '&:hover': {
-          bgcolor: '#f6f6f6',
-          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+          boxShadow: '0 4px 20px 0 rgba(0, 0, 0, 0.05)',
+          transform: 'translateY(-2px)',
         },
+        ...sx,
       }}
       onClick={onClick}
     >
-      <Box
-        sx={{
-          width: 50,
-          height: 50,
-          borderRadius: '50%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          mr: 3,
-        }}
-      >
-        <img src={tiktokLogo} alt="TikTok" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-      </Box>
-      <Box sx={{ flexGrow: 1 }}>
-        <Typography variant="subtitle1" sx={{ fontWeight: 'medium', color: '#333' }}>
-          TikTok Organic
-        </Typography>
-      </Box>
       {children}
-    </Box>
+    </Paper>
   );
 };
+
+// Export compound components
+TikTokOrganicConnectCard.Header = CardHeader;
+TikTokOrganicConnectCard.Content = CardContent;
+TikTokOrganicConnectCard.Footer = CardFooter;
 
 export default TikTokOrganicConnectCard;
