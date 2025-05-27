@@ -1,18 +1,38 @@
 import React, { useState } from 'react';
-import { Box, TextField, Button, Typography } from '@mui/material';
+import { Box, TextField, Button, Typography, CircularProgress, Alert } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (login({ email, password })) {
-      navigate('/dashboard');
+    setError('');
+    
+    if (!email || !password) {
+      setError('Please enter both email and password');
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const result = await login({ email, password });
+      if (result.success) {
+        navigate('/dashboard');
+      } else {
+        setError(result.error || 'Login failed. Please try again.');
+      }
+    } catch (err) {
+      setError('An unexpected error occurred. Please try again.');
+      console.error('Login error:', err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -50,6 +70,11 @@ const LoginPage = () => {
             <Typography variant="body2" sx={{ textAlign: 'center', color: '#666', mb: 4 }}>
               Please enter your credentials to continue
             </Typography>
+            {error && (
+              <Alert severity="error" sx={{ mb: 2 }}>
+                {error}
+              </Alert>
+            )}
           </Box>
           <TextField
             margin="normal"
@@ -105,6 +130,7 @@ const LoginPage = () => {
             type="submit"
             variant="contained"
             fullWidth
+            disabled={isLoading}
             sx={{
               bgcolor: '#6c757d',
               color: 'white',
@@ -113,10 +139,21 @@ const LoginPage = () => {
               },
               mt: 3,
               mb: 2,
-              py: 1.5
+              py: 1.5,
+              '&:disabled': {
+                bgcolor: '#cccccc',
+                color: '#666666'
+              }
             }}
           >
-            Login
+            {isLoading ? (
+              <>
+                <CircularProgress size={24} color="inherit" sx={{ mr: 1 }} />
+                Signing in...
+              </>
+            ) : (
+              'Login'
+            )}
           </Button>
         </Box>
       </Box>
